@@ -7,20 +7,24 @@ const IS_IOS = Platform.OS === 'ios';
 class GoogleSignin {
   configPromise;
 
-  constructor() {
-    if (__DEV__ && !RNGoogleSignin) {
-      console.error(
-        'RN GoogleSignin native module is not correctly linked. Please read the readme, setup and troubleshooting instructions carefully or try manual linking.'
+  constructor() {}
+
+  checkNativeAvailable() {
+    if (!RNGoogleSignin) {
+      throw new Error(
+       'RNGoogleSignin: not  available'
       );
     }
   }
 
   async signIn() {
+    this.checkNativeAvailable();
     await this.configPromise;
     return await RNGoogleSignin.signIn();
   }
 
   async hasPlayServices(options = { showPlayServicesUpdateDialog: true }) {
+    this.checkNativeAvailable();
     if (IS_IOS) {
       return true;
     } else {
@@ -34,6 +38,7 @@ class GoogleSignin {
   }
 
   configure(options = {}) {
+    this.checkNativeAvailable();
     if (options.offlineAccess && !options.webClientId) {
       throw new Error('RNGoogleSignin: offline use requires server web ClientID');
     }
@@ -42,19 +47,23 @@ class GoogleSignin {
   }
 
   async signInSilently() {
+    this.checkNativeAvailable();
     await this.configPromise;
     return RNGoogleSignin.signInSilently();
   }
 
   async signOut() {
+    this.checkNativeAvailable();
     return RNGoogleSignin.signOut();
   }
 
   async revokeAccess() {
+    this.checkNativeAvailable();
     return RNGoogleSignin.revokeAccess();
   }
 
   async isSignedIn() {
+    this.checkNativeAvailable();
     return RNGoogleSignin.isSignedIn();
   }
 }
@@ -62,8 +71,8 @@ class GoogleSignin {
 export const GoogleSigninSingleton = new GoogleSignin();
 
 export const statusCodes = {
-  SIGN_IN_CANCELLED: RNGoogleSignin.SIGN_IN_CANCELLED,
-  IN_PROGRESS: RNGoogleSignin.IN_PROGRESS,
-  PLAY_SERVICES_NOT_AVAILABLE: RNGoogleSignin.PLAY_SERVICES_NOT_AVAILABLE,
-  SIGN_IN_REQUIRED: RNGoogleSignin.SIGN_IN_REQUIRED,
+  SIGN_IN_CANCELLED: RNGoogleSignin ? RNGoogleSignin.SIGN_IN_CANCELLED : null,
+  IN_PROGRESS: RNGoogleSignin ? RNGoogleSignin.IN_PROGRESS : null,
+  PLAY_SERVICES_NOT_AVAILABLE: RNGoogleSignin ? RNGoogleSignin.PLAY_SERVICES_NOT_AVAILABLE : null,
+  SIGN_IN_REQUIRED: RNGoogleSignin ? RNGoogleSignin.SIGN_IN_REQUIRED : null,
 };
