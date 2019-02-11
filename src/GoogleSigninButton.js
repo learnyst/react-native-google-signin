@@ -41,13 +41,13 @@ export class GoogleSigninButton extends PureComponent {
 }
 
 GoogleSigninButton.Size = {
-  Icon: RNGoogleSignin.BUTTON_SIZE_ICON,
-  Standard: RNGoogleSignin.BUTTON_SIZE_STANDARD,
-  Wide: RNGoogleSignin.BUTTON_SIZE_WIDE,
+  Icon: RNGoogleSignin ? RNGoogleSignin.BUTTON_SIZE_ICON : null,
+  Standard: RNGoogleSignin ? RNGoogleSignin.BUTTON_SIZE_STANDARD : null,
+  Wide: RNGoogleSignin ? RNGoogleSignin.BUTTON_SIZE_WIDE : null,
 };
 
 GoogleSigninButton.Color = {
-  Auto: RNGoogleSignin.BUTTON_COLOR_AUTO,
-  Light: RNGoogleSignin.BUTTON_COLOR_LIGHT,
-  Dark: RNGoogleSignin.BUTTON_COLOR_DARK,
+  Auto: RNGoogleSignin ? RNGoogleSignin.BUTTON_COLOR_AUTO : null,
+  Light: RNGoogleSignin ? RNGoogleSignin.BUTTON_COLOR_LIGHT : null,
+  Dark: RNGoogleSignin ? RNGoogleSignin.BUTTON_COLOR_DARK : null,
 };
